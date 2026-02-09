@@ -1,20 +1,179 @@
 // See https://go.microsoft.com/fwlink/?LinkId=733558
 // for the documentation about the tasks.json format
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "npm",
-			"script": "watch",
-			"problemMatcher": "$tsc-watch",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "bun",
+      "script": "dev",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "label": "Development (Build WASM + Watch)"
+    },
+    {
+      "type": "bun",
+      "script": "dev:fast",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Fast Development (No Clear)"
+    },
+    {
+      "type": "bun",
+      "script": "watch",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Watch TypeScript"
+    },
+    {
+      "type": "bun",
+      "script": "compile",
+      "problemMatcher": "$tsc",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Compile TypeScript"
+    },
+    {
+      "type": "bun",
+      "script": "build-wasm",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build WASM"
+    },
+    {
+      "type": "bun",
+      "script": "build",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build (Compile + WASM)"
+    },
+    {
+      "type": "bun",
+      "script": "build:parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build (Parallel)"
+    },
+    {
+      "type": "bun",
+      "script": "lint",
+      "problemMatcher": "$oxlint",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Lint Code"
+    },
+    {
+      "type": "bun",
+      "script": "lint:fix",
+      "problemMatcher": "$oxlint",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Lint and Fix Code"
+    },
+    {
+      "type": "bun",
+      "script": "format",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Format Code"
+    },
+    {
+      "type": "bun",
+      "script": "format:check",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Check Code Format"
+    },
+    {
+      "type": "bun",
+      "script": "type-check",
+      "problemMatcher": "$tsc",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Type Check"
+    },
+    {
+      "type": "bun",
+      "script": "clean",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Clean Build Artifacts"
+    },
+    {
+      "type": "bun",
+      "script": "test",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run Tests"
+    },
+    {
+      "type": "bun",
+      "script": "test:watch",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run Tests (Watch)"
+    },
+    {
+      "type": "bun",
+      "script": "test:coverage",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run Tests with Coverage"
+    }
+  ]
 }

@@ -1,6 +1,8 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "ms-vscode.extension-test-runner"
+    "oven.bun-vscode",
+    "oxc.oxc-vscode",
+    "ms-vscode.extension-test-runner",
+    "ms-vscode.vscode-typescript-next"
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "indentSize": 2,
+  "indentStyle": "space",
+  "lineWidth": 100,
+  "quoteStyle": "single",
+  "quoteProps": "as-needed",
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "semiColons": true,
+  "endOfLine": "lf",
+  "jsxQuoteStyle": "double",
+  "attributePosition": "auto",
+  "binaryExpressionOperatorPosition": "nextLine",
+  "curlySameLine": false,
+  "yamlQuoteProps": "as-needed"
+}

@@ -1,23 +1,57 @@
 {
   "name": "lelwel",
   "displayName": "lelwel",
-  "description": "lelwel language server",
-  "author": "Daniel Pfister",
-  "publisher": "0x2a-42",
-  "license": "MIT",
   "version": "0.1.0",
+  "description": "lelwel language server",
+  "categories": [
+    "Programming Languages"
+  ],
+  "license": "MIT",
+  "author": "Daniel Pfister",
   "repository": {
     "type": "git",
     "url": "https://github.com/0x2a-42/vscode-lelwel"
   },
-  "engines": {
-    "vscode": "^1.100.0"
-  },
-  "categories": [
-    "Programming Languages"
-  ],
-  "activationEvents": [],
+  "publisher": "0x2a-42",
   "main": "./dist/extension.js",
+  "scripts": {
+    "vscode:prepublish": "bun run build",
+    "build": "bun run build-wasm && bun run compile",
+    "build:parallel": "bunx concurrently \"bun run build-wasm\" \"bun run compile\"",
+    "build-wasm": "mkdir -p server && cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip1-threads -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000 && cp target/wasm32-wasip1-threads/release/lelwel-ls.wasm ../server/ && cd ..",
+    "compile": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --minify",
+    "watch": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --watch",
+    "dev": "bun run build-wasm && bun run watch",
+    "dev:fast": "bun run build-wasm && bun run watch --no-clear",
+    "pretest": "bun run type-check && bun run compile && bun run lint",
+    "type-check": "bunx tsc --noEmit",
+    "lint": "bunx oxlint",
+    "lint:fix": "bunx oxlint --fix",
+    "format": "bunx oxfmt --write src/**/*.{ts,js,json}",
+    "format:check": "bunx oxfmt --check src/**/*.{ts,js,json}",
+    "test": "bunx vscode-test",
+    "test:watch": "bunx vscode-test --watch",
+    "test:coverage": "bunx vscode-test --coverage",
+    "clean": "rm -rf dist server .tsbuildinfo coverage",
+    "package": "bunx vsce package --no-dependencies"
+  },
+  "dependencies": {
+    "@vscode/wasm-wasi": "^1.0.1",
+    "@vscode/wasm-wasi-lsp": "^0.1.0-pre.8",
+    "vscode-languageclient": "^10.0.0-next.19"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "25.2.2",
+    "@types/vscode": "^1.107.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
+    "bun-types": "1.3.9",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
+    "typescript": "^5.9.3"
+  },
   "contributes": {
     "languages": [
       {
@@ -51,35 +85,11 @@
       }
     }
   },
-  "scripts": {
-    "vscode:prepublish": "npm run build",
-    "build": "npm run compile -- --minify && mkdir -p server && cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip1-threads -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000 && cp target/wasm32-wasip1-threads/release/lelwel-ls.wasm ../server/ && cd ..",
-    "compile": "esbuild ./src/extension.ts --bundle --sourcemap --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
-    "watch": "npm run compile -- --watch",
-    "pretest": "npm run type-check && npm run compile && npm run lint",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
+  "activationEvents": [],
   "extensionDependencies": [
     "ms-vscode.wasm-wasi-core"
   ],
-  "dependencies": {
-    "@vscode/wasm-wasi": "^1.0.1",
-    "@vscode/wasm-wasi-lsp": "^0.1.0-pre.8",
-    "vscode-languageclient": "^10.0.0-next.12"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.100.0",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2",
-    "esbuild": "^0.25.6",
-    "eslint": "^9.25.1",
-    "prettier": "3.5.3",
-    "typescript": "^5.8.3"
+  "engines": {
+    "vscode": "^1.107.0"
   }
 }

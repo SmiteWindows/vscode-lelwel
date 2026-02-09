@@ -1,0 +1,42 @@
+[install]
+
+# 使用锁文件确保依赖一致性
+lockfile = true
+# 精确安装
+exact = true
+
+[build]
+# 构建目标
+target = "node"
+# 输出目录
+outdir = "./dist"
+# 默认入口点
+entrypoints = ["./src/extension.ts"]
+# 构建时包含的宏
+macros = ["process.env.NODE_ENV"]
+# 是否生成源映射
+sourcemap = true
+# 构建时跳过类型检查（使用tsc）
+skipTypeCheck = true
+# 构建时自动清理
+autoClean = true
+
+[test]
+# 测试文件匹配模式
+preload = ["./src/test/setup.ts"]
+# 测试覆盖率
+coverage = true
+# 覆盖率报告格式
+coverageDir = "./coverage"
+# 测试超时时间
+timeout = 10000
+# 并行运行测试
+concurrency = true
+
+[run]
+# 运行脚本时的默认行为
+bun = true
+# 热重载
+hot = true
+# 静默模式
+silent = false

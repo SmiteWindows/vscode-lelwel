@@ -1,14 +1,30 @@
 {
   "compilerOptions": {
-    "module": "Node16",
-    "target": "ES2022",
+    "module": "ESNext",
+    "target": "ES2024",
+    "moduleResolution": "bundler",
     "outDir": "out",
-    "lib": ["ES2022", "webworker"],
-    "types": ["vscode", "mocha", "node"],
+    "lib": ["ES2024", "webworker"],
+    "types": ["vscode", "mocha", "node", "bun-types"],
     "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true
+    "strict": true,
+    "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "verbatimModuleSyntax": false,
+    "noEmitOnError": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "useDefineForClassFields": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist", "out", ".tsbuildinfo"]
 }

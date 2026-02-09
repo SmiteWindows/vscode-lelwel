@@ -1,7 +1,6 @@
 # Lelwel for Visual Studio Code
 
-This extension provides [lelwel](https://github.com/0x2a-42/lelwel) language support for VS Code/VSCodium, powered by WebAssembly.
-
+This extension provides [lelwel](https://github.com/SmiteWindows/lelwel) language support for VS Code/VSCodium, powered by WebAssembly.
 
 ## Features
 

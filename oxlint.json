@@ -1,0 +1,60 @@
+{
+  "categories": {
+    "correctness": "enable",
+    "suspicious": "enable",
+    "pedantic": "warn",
+    "style": "warn",
+    "restriction": "allow",
+    "nursery": "allow"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-debugger": "warn",
+    "no-alert": "warn",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-arrow-callback": "warn",
+    "arrow-spacing": "warn",
+    "no-duplicate-imports": "error",
+    "no-unused-vars": "warn",
+    "no-undef": "error",
+    "semi": "warn",
+    "quotes": ["warn", "single"],
+    "indent": ["warn", 2],
+    "comma-dangle": ["warn", "never"],
+    "object-curly-spacing": ["warn", "always"],
+    "array-bracket-spacing": ["warn", "never"],
+    "space-before-function-paren": ["warn", "always"],
+    "keyword-spacing": "warn",
+    "space-infix-ops": "warn",
+    "eol-last": "warn",
+    "no-trailing-spaces": "warn",
+    "no-const-assign": "error",
+    "no-self-assign": "error",
+    "no-unreachable-loop": "error",
+    "no-async-promise-executor": "error",
+    "no-await-in-loop": "warn",
+    "no-empty": "warn",
+    "no-extra-semi": "error",
+    "no-irregular-whitespace": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "no-regex-spaces": "error",
+    "no-unsafe-negation": "error",
+    "valid-typeof": "error"
+  },
+  "env": {
+    "es2024": true,
+    "node": true,
+    "browser": false
+  },
+  "ignore": [
+    "node_modules/**",
+    "dist/**",
+    "out/**",
+    "*.wasm"
+  ]
+}
