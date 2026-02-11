@@ -34,9 +34,6 @@
     "**/dist/**": true,
     "**/out/**": true
   },
-  "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.revealDefinition",
-  "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.revealDefinition",
-  "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.revealDefinition",
   "editor.selectionHighlight": false,
   "files.autoSave": "onFocusChange",
   "editor.suggest.snippetsPreventQuickSuggestions": false,
@@ -44,5 +41,8 @@
     "other": "on",
     "comments": "off",
     "strings": "on"
-  }
+  },
+  "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.revealDefinition",
+  "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.revealDefinition",
+  "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.revealDefinition"
 }

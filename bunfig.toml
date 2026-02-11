@@ -1,37 +1,85 @@
 [install]
-
-# 使用锁文件确保依赖一致性
+# Use lockfile for dependency consistency
 lockfile = true
-# 精确安装
+# Exact installation
 exact = true
+# Use Bun's fast installation algorithm
+frozenLockfile = false
+# Cache dependencies
+cache = true
+# Production installation
+production = false
+
 
 [build]
-# 构建目标
+# Build target
 target = "node"
-# 输出目录
+# Output directory
 outdir = "./dist"
-# 默认入口点
+# Default entry points
 entrypoints = ["./src/extension.ts"]
-# 构建时包含的宏
+# Macros to include in build
 macros = ["process.env.NODE_ENV"]
-# 是否生成源映射
+# Generate source maps
 sourcemap = true
-# 构建时跳过类型检查（使用tsc）
+# Skip type checking during build (use tsc)
 skipTypeCheck = true
-# 构建时自动清理
+# Auto clean during build
 autoClean = true
+# Code splitting
+splitting = true
+# Tree shaking optimization
+treeShaking = true
+# Minify code
+minify = true
+# Target environment
+environment = "node"
+# Optimization level
+optimizationLevel = 3
+# Parallel building
+parallel = true
 
 [test]
-# 测试文件匹配模式
+# Test file matching patterns
 preload = ["./src/test/setup.ts"]
-# 测试覆盖率
+# Test coverage
 coverage = true
-# 覆盖率报告格式
+# Coverage report format
 coverageDir = "./coverage"
-# 测试超时时间
+# Coverage threshold
+coverageThreshold = 80
+# Coverage reporters
+coverageReporters = ["text", "html", "lcov"]
+# Test timeout
 timeout = 10000
-# 并行运行测试
+# Run tests in parallel
 concurrency = true
+# Test file patterns
+testMatch = ["src/test/unit/**/*.test.ts", "src/test/integration/**/*.test.ts"]
+# Ignored test file patterns
+testIgnore = ["**/node_modules/**"]
+# 测试环境变量
+testEnv = { "NODE_ENV" = "test" }
+# 测试重试次数
+retry = 2
+# 外部依赖（测试时不需要打包的模块）
+external = ["vscode"]
+
+[database]
+# 数据库配置
+type = "sqlite"
+location = "./data/lelwel.db"
+maxConnections = 10
+# 连接池配置
+connectionTimeout = 5000
+# 启用 WAL 模式以提高性能
+walMode = true
+
+[analyze]
+# 分析配置
+bundleAnalysis = true
+dependencyAnalysis = true
+performanceProfiling = true
 
 [run]
 # 运行脚本时的默认行为
@@ -40,3 +88,32 @@ bun = true
 hot = true
 # 静默模式
 silent = false
+
+[bundle]
+# 捆绑配置
+# 外部依赖
+external = ["vscode"]
+# 输出格式
+format = "cjs"
+# 是否打包
+bundle = true
+# 启用实验性功能
+experimental = true
+
+[loader]
+# 加载器配置
+".ts" = "ts"
+".js" = "js"
+".json" = "json"
+".wasm" = "wasm"
+
+# 性能优化配置
+[optimize]
+# 启用所有优化
+all = true
+# 内联小函数
+inlineThreshold = 10
+# 死代码消除
+deadCodeElimination = true
+# 常量折叠
+constantFolding = true

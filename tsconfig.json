@@ -3,9 +3,16 @@
     "module": "ESNext",
     "target": "ES2024",
     "moduleResolution": "bundler",
-    "outDir": "out",
-    "lib": ["ES2024", "webworker"],
-    "types": ["vscode", "mocha", "node", "bun-types"],
+    "outDir": "dist",
+    "lib": [
+      "ES2024",
+      "webworker"
+    ],
+    "types": [
+      "vscode",
+      "node",
+      "bun-types"
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "src",
@@ -23,8 +30,40 @@
     "useDefineForClassFields": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    // 性能优化选项
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "disableSourceOfProjectReferenceRedirect": true,
+    "disableReferencedProjectLoad": true,
+    // 更严格的类型检查
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    // 代码生成优化
+    "removeComments": true,
+    "importHelpers": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "dist", "out", ".tsbuildinfo"]
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "out",
+    ".tsbuildinfo",
+    "coverage"
+  ],
+  // TypeScript 5.0+ 性能优化
+  "watchOptions": {
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": [
+      "**/node_modules",
+      "**/dist"
+    ],
+    "excludeFiles": [
+      "**/dist/**"
+    ]
+  }
 }

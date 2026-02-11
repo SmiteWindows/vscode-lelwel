@@ -1,5 +1,3 @@
-// See https://go.microsoft.com/fwlink/?LinkId=733558
-// for the documentation about the tasks.json format
 {
   "version": "2.0.0",
   "tasks": [
@@ -9,7 +7,9 @@
       "problemMatcher": "$tsc-watch",
       "isBackground": true,
       "presentation": {
-        "reveal": "never"
+        "reveal": "never",
+        "group": "build",
+        "clear": false
       },
       "group": {
         "kind": "build",
@@ -23,7 +23,9 @@
       "problemMatcher": [],
       "isBackground": true,
       "presentation": {
-        "reveal": "never"
+        "reveal": "never",
+        "group": "build",
+        "clear": false
       },
       "group": {
         "kind": "build",
@@ -33,11 +35,32 @@
     },
     {
       "type": "bun",
+      "script": "dev:hot",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never",
+        "group": "build",
+        "clear": false
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Hot Reload Development",
+      "dependsOn": [
+        "Build WASM"
+      ]
+    },
+    {
+      "type": "bun",
       "script": "watch",
       "problemMatcher": "$tsc-watch",
       "isBackground": true,
       "presentation": {
-        "reveal": "never"
+        "reveal": "never",
+        "group": "build",
+        "clear": false
       },
       "group": {
         "kind": "build",
@@ -53,7 +76,8 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Compile TypeScript"
+      "label": "Compile TypeScript",
+      "detail": "Compile TypeScript files to JavaScript"
     },
     {
       "type": "bun",
@@ -63,7 +87,8 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Build WASM"
+      "label": "Build WASM",
+      "detail": "Compile Rust code to WebAssembly"
     },
     {
       "type": "bun",
@@ -73,7 +98,8 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Build (Compile + WASM)"
+      "label": "Build (Compile + WASM)",
+      "detail": "Build both TypeScript and WebAssembly components"
     },
     {
       "type": "bun",
@@ -83,7 +109,19 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Build (Parallel)"
+      "label": "Build (Parallel)",
+      "detail": "Build TypeScript and WebAssembly in parallel"
+    },
+    {
+      "type": "bun",
+      "script": "build:production",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build Production",
+      "detail": "Build optimized production version"
     },
     {
       "type": "bun",
@@ -93,7 +131,8 @@
         "kind": "test",
         "isDefault": false
       },
-      "label": "Lint Code"
+      "label": "Lint Code",
+      "detail": "Run linter to check code quality"
     },
     {
       "type": "bun",
@@ -103,7 +142,8 @@
         "kind": "test",
         "isDefault": false
       },
-      "label": "Lint and Fix Code"
+      "label": "Lint and Fix Code",
+      "detail": "Run linter and automatically fix issues"
     },
     {
       "type": "bun",
@@ -113,7 +153,8 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Format Code"
+      "label": "Format Code",
+      "detail": "Format code using oxfmt"
     },
     {
       "type": "bun",
@@ -123,7 +164,8 @@
         "kind": "test",
         "isDefault": false
       },
-      "label": "Check Code Format"
+      "label": "Check Code Format",
+      "detail": "Check if code is properly formatted"
     },
     {
       "type": "bun",
@@ -133,7 +175,8 @@
         "kind": "test",
         "isDefault": false
       },
-      "label": "Type Check"
+      "label": "Type Check",
+      "detail": "Run TypeScript type checking"
     },
     {
       "type": "bun",
@@ -143,7 +186,8 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Clean Build Artifacts"
+      "label": "Clean Build Artifacts",
+      "detail": "Remove all build artifacts and temporary files"
     },
     {
       "type": "bun",
@@ -151,19 +195,60 @@
       "problemMatcher": [],
       "group": {
         "kind": "test",
-        "isDefault": false
+        "isDefault": true
       },
-      "label": "Run Tests"
+      "label": "Run Tests",
+      "detail": "Run all tests"
     },
     {
       "type": "bun",
-      "script": "test:watch",
+      "script": "test:unit",
       "problemMatcher": [],
       "group": {
         "kind": "test",
         "isDefault": false
       },
-      "label": "Run Tests (Watch)"
+      "label": "Run Unit Tests",
+      "detail": "Run unit tests only"
+    },
+    {
+      "type": "bun",
+      "script": "test:integration",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run Integration Tests",
+      "detail": "Run integration tests only"
+    },
+    {
+      "type": "bun",
+      "script": "test:vscode",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run VS Code Tests",
+      "detail": "Run VS Code extension tests"
+    },
+    {
+      "type": "bun",
+      "script": "test:watch",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never",
+        "group": "test",
+        "clear": false
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Run Tests (Watch)",
+      "detail": "Run tests in watch mode"
     },
     {
       "type": "bun",
@@ -173,7 +258,49 @@
         "kind": "test",
         "isDefault": false
       },
-      "label": "Run Tests with Coverage"
+      "label": "Run Tests with Coverage",
+      "detail": "Run tests and generate coverage report"
+    },
+    {
+      "type": "bun",
+      "script": "test:coverage:report",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "label": "Generate Coverage Report",
+      "detail": "Generate HTML coverage report"
+    },
+    {
+      "type": "bun",
+      "script": "package",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Package Extension",
+      "detail": "Package the extension into a VSIX file"
+    },
+    {
+      "label": "Build WASM",
+      "type": "shell",
+      "command": "bun",
+      "args": [
+        "run",
+        "build-wasm"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Build WebAssembly component"
     }
   ]
 }

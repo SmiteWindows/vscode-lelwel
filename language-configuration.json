@@ -1,27 +1,96 @@
 {
   "comments": {
     "lineComment": "//",
-    "blockComment": ["/*", "*/"]
+    "blockComment": [
+      "/*",
+      "*/"
+    ]
   },
   // symbols used as brackets
   "brackets": [
-    ["[", "]"],
-    ["(", ")"]
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "{",
+      "}"
+    ]
   ],
   // symbols that are auto closed when typing
   "autoClosingPairs": [
-    ["[", "]"],
-    ["(", ")"],
-    { "open": "'", "close": "'", "notIn": ["string", "comment"] }
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "{",
+      "}"
+    ],
+    {
+      "open": "'",
+      "close": "'",
+      "notIn": [
+        "string",
+        "comment"
+      ]
+    },
+    {
+      "open": "\"",
+      "close": "\"",
+      "notIn": [
+        "string",
+        "comment"
+      ]
+    }
   ],
   // symbols that can be used to surround a selection
   "surroundingPairs": [
-    ["[", "]"],
-    ["(", ")"],
-    ["'", "'"]
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "{",
+      "}"
+    ],
+    [
+      "'",
+      "'"
+    ],
+    [
+      "\"",
+      "\""
+    ]
   ],
   "indentationRules": {
-    "increaseIndentPattern": "^.*:$",
-    "decreaseIndentPattern": "^ *;$"
-  }
+    "increaseIndentPattern": "^.*:$|^\\s*(if|else|while|for)\\b",
+    "decreaseIndentPattern": "^ *\\b(else|endif|endwhile|endfor)\\b|^ *\\}"
+  },
+  // 新版本 VSCode 支持的格式化选项
+  "folding": {
+    "markers": {
+      "start": "^\\s*#\\s*region\\b",
+      "end": "^\\s*#\\s*endregion\\b"
+    }
+  },
+  // 自动完成配置
+  "wordPattern": "(-?\\d*\\.?\\d+)|([^\\`\\~\\!@#\\$%\\^&\\*\\(\\)=\\+\\[\\{\\}\\]\\|\\\\;:\\"\\'\\,\\.\\<\\>/\\?\\s
+]+)",
+// 数字格式
+"numberFormat": {
+  "regex": "(-?\\d*\\.?\\d+)"
+}
 }

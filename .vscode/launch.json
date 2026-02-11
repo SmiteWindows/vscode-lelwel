@@ -1,7 +1,3 @@
-// A launch configuration that compiles the extension and then opens it inside a new window
-// Use IntelliSense to learn about possible attributes.
-// Hover to view descriptions of existing attributes.
-// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 {
   "version": "0.2.0",
   "configurations": [
@@ -9,11 +5,42 @@
       "name": "Run Extension",
       "type": "extensionHost",
       "request": "launch",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "preLaunchTask": "${defaultBuildTask}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--disable-extensions"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "preLaunchTask": "Build (Compile + WASM)",
       "env": {
         "NODE_ENV": "development"
+      },
+      "presentation": {
+        "hidden": false,
+        "group": "1. Run",
+        "order": 1
+      }
+    },
+    {
+      "name": "Run Extension (Fast)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--disable-extensions"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "preLaunchTask": "Fast Development (No Clear)",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "presentation": {
+        "hidden": false,
+        "group": "1. Run",
+        "order": 2
       }
     },
     {
@@ -22,10 +49,100 @@
       "request": "launch",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/dist/test/suite/index"
+        "--extensionTestsPath=${workspaceFolder}/out/test/suite/index",
+        "--disable-extensions"
       ],
-      "outFiles": ["${workspaceFolder}/dist/test/**/*.js"],
-      "preLaunchTask": "${defaultBuildTask}"
+      "outFiles": [
+        "${workspaceFolder}/out/test/**/*.js"
+      ],
+      "preLaunchTask": "Build (Compile + WASM)",
+      "presentation": {
+        "hidden": false,
+        "group": "2. Test",
+        "order": 1
+      }
+    },
+    {
+      "name": "Debug Bun Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/bun/bin/bun.js",
+      "args": [
+        "test",
+        "--inspect",
+        "${workspaceFolder}/src/test/unit/extension.test.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "presentation": {
+        "hidden": false,
+        "group": "2. Test",
+        "order": 2
+      }
+    },
+    {
+      "name": "Debug Bun Integration Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/bun/bin/bun.js",
+      "args": [
+        "test",
+        "--inspect",
+        "${workspaceFolder}/src/test/integration/lsp.test.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "presentation": {
+        "hidden": false,
+        "group": "2. Test",
+        "order": 3
+      }
+    },
+    {
+      "name": "Debug Bun Test Watch",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/bun/bin/bun.js",
+      "args": [
+        "test",
+        "--inspect",
+        "--watch",
+        "${workspaceFolder}/src/test/"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "presentation": {
+        "hidden": false,
+        "group": "2. Test",
+        "order": 4
+      }
+    },
+    {
+      "name": "Attach to Bun",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "presentation": {
+        "hidden": false,
+        "group": "3. Attach",
+        "order": 1
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch and Debug Extension",
+      "configurations": [
+        "Run Extension",
+        "Attach to Bun"
+      ],
+      "presentation": {
+        "hidden": false,
+        "group": "4. Compound"
+      }
     }
   ]
 }

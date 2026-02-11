@@ -3,6 +3,6 @@
     "oven.bun-vscode",
     "oxc.oxc-vscode",
     "ms-vscode.extension-test-runner",
-    "ms-vscode.vscode-typescript-next"
+    "rust-lang.rust-analyzer"
   ]
 }
