@@ -23,6 +23,27 @@
       }
     },
     {
+      "name": "Run Extension (Hot Reload)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--disable-extensions"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "preLaunchTask": "Hot Reload Development",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "presentation": {
+        "hidden": false,
+        "group": "1. Run",
+        "order": 2
+      }
+    },
+    {
       "name": "Run Extension (Fast)",
       "type": "extensionHost",
       "request": "launch",
@@ -40,7 +61,7 @@
       "presentation": {
         "hidden": false,
         "group": "1. Run",
-        "order": 2
+        "order": 3
       }
     },
     {

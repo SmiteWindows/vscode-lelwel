@@ -37,17 +37,34 @@ cd vscode-lelwel
 # Install dependencies
 bun install
 
-# Build the extension
-bun run build
+# Build the extension (includes WASM)
+bun run build:dev
 
-# Run in development mode
+# Run in hot reload development mode (recommended)
+bun run dev:hot
+```
+
+### Development Workflow
+
+This project supports multiple development modes:
+
+```bash
+# Hot reload development (recommended) - monitors TypeScript and Rust files
+bun run dev:hot
+
+# Simple development mode
 bun run dev
+
+# Fast development (no clear)
+bun run dev:fast
 ```
 
 ### Testing
 
+The project includes comprehensive testing with 13 tests:
+
 ```bash
-# Run all tests
+# Run all tests (13 tests)
 bun run test
 
 # Run unit tests only
@@ -55,6 +72,9 @@ bun run test:unit
 
 # Run integration tests only
 bun run test:integration
+
+# Watch mode for tests
+bun run test:watch
 
 # Run tests with coverage
 bun run test:coverage

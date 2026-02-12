@@ -47,10 +47,39 @@
         "kind": "build",
         "isDefault": false
       },
-      "label": "Hot Reload Development",
-      "dependsOn": [
-        "Build WASM"
-      ]
+      "label": "Hot Reload Development"
+    },
+    {
+      "type": "bun",
+      "script": "build:dev",
+      "problemMatcher": [],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "group": "build",
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build (Development)"
+    },
+    {
+      "type": "bun",
+      "script": "build:production",
+      "problemMatcher": [],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "group": "build",
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "label": "Build (Production)"
     },
     {
       "type": "bun",
