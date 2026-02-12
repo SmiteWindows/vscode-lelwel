@@ -70,7 +70,7 @@ bun run watch:wasm
 
 ## Testing Infrastructure
 
-- **13 comprehensive tests** covering extension functionality
+- **Comprehensive tests** covering extension functionality
 - **Unit tests**: Core extension functions
 - **Integration tests**: LSP server integration and error handling
 - **Mock system**: Test-specific extension mocking to avoid vscode module issues
@@ -104,23 +104,24 @@ Project includes comprehensive VS Code configuration:
 - **Debug configurations** for extension development
 - **Task definitions** for build automation
 - **Launch profiles** for different development scenarios
+- **Auto-formatting** on save
+- **Task execution** for compilation, linting, and formatting
+- **Debugging support** with breakpoints and step-through
+- **Test execution** with integrated test runner
 
-- 自动格式化（保存时）
-- 任务运行（编译、检查、格式化）
-- 调试支持
-- 测试运行
+### Recommended VS Code Extensions
 
-推荐安装的VS Code扩展：
+- **oven.bun-vscode** - Bun runtime and tooling support
+- **oxc.oxc-vscode** - oxlint oxfmt integration for code quality
+- **ms-vscode.extension-test-runner** - Extension testing framework
+- **ms-vscode.vscode-typescript-next** - Latest TypeScript features
 
-- Oven.bun-vscode - Bun支持
-- DedsecX3000.oxlint - oxlint支持
-- DedsecX3000.oxfmt - oxcfmt支持
-- ms-vscode.extension-test-runner - 测试运行器
-- ms-vscode.vscode-typescript-next - 最新TypeScript支持
+## Important Notes
 
-## 注意事项
-
-- 确保使用Bun 1.3.9或更高版本
-- 使用`bunx`运行命令而不是全局安装的版本
-- WASM构建需要Rust工具链和wasm32-wasip1-threads目标
-  - `rustup target add wasm32-wasip1-threads`
+- Ensure Bun 1.3.9 or later is installed
+- Use `bunx` to run commands instead of globally installed versions
+- WASM build requires Rust toolchain and wasm32-wasip1-threads target
+  - Install with: `rustup target add wasm32-wasip1-threads`
+- All tests should pass before committing changes
+- Use `bun run build:dev` for development builds with sourcemaps
+- Use `bun run build:production` for optimized production builds
