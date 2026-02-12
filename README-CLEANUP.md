@@ -2,6 +2,16 @@
 
 本文档总结了项目中发现的重复问题及其解决方案。
 
+    "watch:wasm": "bun x watch lelwel/src --recursive --pattern='*.rs' --command='bun build-wasm'",
+    "dev:hot": "bun build-wasm && bun concurrently 'bun --watch src/extension.ts --watch src/test/**/*.ts' 'bun watch:wasm'",
+    "test": "bun test",
+    "test:unit": "bun test src/test/unit/",
+    "test:integration": "bun test src/test/integration/",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "clean": "bun x rimraf dist server .tsbuildinfo coverage"
+    这些脚本没成功
+
 ## 已解决的重复问题
 
 ### 1. package.json 中的重复脚本

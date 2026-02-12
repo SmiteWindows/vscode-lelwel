@@ -2,7 +2,6 @@
 import "./global-setup";
 
 import { beforeAll, afterAll, beforeEach, afterEach } from "bun:test";
-import * as vscode from "vscode";
 
 // 存储原始的全局变量，以便测试后恢复
 const originalGlobals = {

@@ -3,12 +3,14 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
-import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 
-export let doc: vscode.TextDocument;
-export let editor: vscode.TextEditor;
+// 使用全局 vscode 模拟，避免模块导入错误
+const vscode = (global as any).vscode;
+
+export let doc: any;
+export let editor: any;
 
 /**
  * Get test document path
@@ -27,7 +29,7 @@ export const getDocPath = (p: string): string => {
 /**
  * Get test document URI
  */
-export const getDocUri = (p: string): vscode.Uri => {
+export const getDocUri = (p: string): any => {
   return vscode.Uri.file(getDocPath(p));
 };
 
@@ -37,14 +39,14 @@ export const getDocUri = (p: string): vscode.Uri => {
 export async function createTestDocument(
   content: string = "",
   fileName: string = "test.llw",
-): Promise<vscode.TextDocument> {
+): Promise<any> {
   const filePath = getDocPath(fileName);
 
   // Write test content to file
   fs.writeFileSync(filePath, content, "utf8");
 
   // Create mock document
-  const mockDocument: vscode.TextDocument = {
+  const mockDocument: any = {
     uri: vscode.Uri.file(filePath),
     fileName: filePath,
     isUntitled: false,
@@ -52,17 +54,18 @@ export async function createTestDocument(
     version: 1,
     isDirty: false,
     isClosed: false,
+    encoding: "utf8",
     save: () => Promise.resolve(true),
-    eol: vscode.EndOfLine.LF,
+    eol: 1, // LF
     lineCount: content.split("\n").length,
 
-    getText: (range?: vscode.Range): string => {
+    getText: (range?: any): string => {
       if (!range) return content;
       const lines = content.split("\n");
       let result = "";
       for (let i = range.start.line; i <= range.end.line; i++) {
         if (i >= lines.length) break;
-        const line = lines[i];
+        const line = lines[i] || "";
         if (i === range.start.line && i === range.end.line) {
           result += line.substring(range.start.character, range.end.character);
         } else if (i === range.start.line) {
@@ -76,40 +79,74 @@ export async function createTestDocument(
       return result;
     },
 
-    positionAt: (offset: number): vscode.Position => {
-      const lines = content.substring(0, offset).split("\n");
-      return new vscode.Position(lines.length - 1, lines[lines.length - 1].length);
+    lineAt: (line: number): any => {
+      const lines = content.split("\n");
+      const lineText = lines[line] || "";
+      return {
+        lineNumber: line,
+        text: lineText,
+        range: { start: { line, character: 0 }, end: { line, character: lineText.length } },
+        rangeIncludingLineBreak: {
+          start: { line, character: 0 },
+          end: { line, character: lineText.length },
+        },
+        firstNonWhitespaceCharacterIndex: lineText.search(/\S/),
+        isEmptyOrWhitespace: lineText.trim().length === 0,
+      };
     },
 
-    offsetAt: (position: vscode.Position): number => {
+    positionAt: (offset: number): any => {
+      const lines = content.substring(0, offset).split("\n");
+      const lineIndex = Math.max(0, lines.length - 1);
+      const lineText = lines[lineIndex] || "";
+      return { line: lineIndex, character: lineText.length };
+    },
+
+    offsetAt: (position: any): number => {
       const lines = content.split("\n");
       let offset = 0;
-      for (let i = 0; i < position.line; i++) {
-        if (i < lines.length) {
-          offset += lines[i].length + 1; // +1 for newline
-        }
+      for (let i = 0; i < position.line && i < lines.length; i++) {
+        offset += (lines[i] || "").length + 1; // +1 for newline
       }
-      offset += position.character;
-      return Math.min(offset, content.length);
+      offset += Math.min(position.character, lines[position.line]?.length || 0);
+      return offset;
     },
 
-    getWordRangeAtPosition: (
-      position: vscode.Position,
-      regex?: RegExp,
-    ): vscode.Range | undefined => {
-      // Simple word detection for testing
-      const line = content.split("\n")[position.line] || "";
-      const lineText = line.substring(0, position.character);
-      const match = lineText.match(/\w+$/);
-      if (match) {
-        const start = match.index || 0;
-        return new vscode.Range(position.line, start, position.line, start + match[0].length);
+    getWordRangeAtPosition: (position: any, regex?: RegExp): any => {
+      const lines = content.split("\n");
+      const lineText = lines[position.line] || "";
+
+      if (regex) {
+        const matches = lineText.match(regex);
+        if (matches) {
+          const matchIndex = lineText.indexOf(matches[0]);
+          return {
+            start: { line: position.line, character: matchIndex },
+            end: { line: position.line, character: matchIndex + matches[0].length },
+          };
+        }
       }
+
+      // 简单的单词检测
+      const wordRegex = /\w+/g;
+      let match;
+      while ((match = wordRegex.exec(lineText)) !== null) {
+        if (
+          position.character >= match.index &&
+          position.character <= match.index + match[0].length
+        ) {
+          return {
+            start: { line: position.line, character: match.index },
+            end: { line: position.line, character: match.index + match[0].length },
+          };
+        }
+      }
+
       return undefined;
     },
 
-    validateRange: (range: vscode.Range): vscode.Range => range,
-    validatePosition: (position: vscode.Position): vscode.Position => position,
+    validateRange: (range: any): any => range,
+    validatePosition: (position: any): any => position,
   };
 
   return mockDocument;
@@ -118,9 +155,7 @@ export async function createTestDocument(
 /**
  * Activate extension with test document
  */
-export async function activate(
-  docUri: vscode.Uri,
-): Promise<{ doc: vscode.TextDocument; editor: vscode.TextEditor }> {
+export async function activate(docUri: any): Promise<{ doc: any; editor: any }> {
   try {
     // Simulate extension activation
     const ext = vscode.extensions.getExtension("0x2a-42.lelwel");
@@ -133,38 +168,32 @@ export async function activate(
     doc = await createTestDocument(fileContent, path.basename(docUri.fsPath));
 
     // Create mock editor
-    const mockEditor: vscode.TextEditor = {
+    const mockEditor: any = {
       document: doc,
-      selection: new vscode.Selection(0, 0, 0, 0),
-      selections: [new vscode.Selection(0, 0, 0, 0)],
-      visibleRanges: [new vscode.Range(0, 0, 0, 0)],
+      selection: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+      selections: [{ start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }],
+      visibleRanges: [{ start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }],
       options: {},
-      viewColumn: vscode.ViewColumn.One,
+      viewColumn: 1, // ViewColumn.One
 
-      edit: (callback: (editBuilder: vscode.TextEditorEdit) => void): Thenable<boolean> => {
+      edit: (callback: (editBuilder: any) => void): Promise<boolean> => {
         // Simple mock implementation
         return Promise.resolve(true);
       },
 
-      insertSnippet: (
-        snippet: vscode.SnippetString,
-        location?: vscode.Position | vscode.Range | vscode.Position[] | vscode.Range[],
-      ): Thenable<boolean> => {
+      insertSnippet: (snippet: any, location?: any): Promise<boolean> => {
         return Promise.resolve(true);
       },
 
-      setDecorations: (
-        decorationType: vscode.TextEditorDecorationType,
-        rangesOrOptions: vscode.Range[] | vscode.DecorationOptions[],
-      ): void => {
+      setDecorations: (decorationType: any, rangesOrOptions: any): void => {
         // Mock implementation
       },
 
-      revealRange: (range: vscode.Range, revealType?: vscode.TextEditorRevealType): void => {
+      revealRange: (range: any, revealType?: any): void => {
         // Mock implementation
       },
 
-      show: (column?: vscode.ViewColumn): void => {
+      show: (column?: any): void => {
         // Mock implementation
       },
 

@@ -1,6 +1,19 @@
 // 全局设置文件 - 在任何测试文件导入之前执行
 // 创建完整的 VS Code API 模拟
 if (!(global as any).vscode) {
+  // 模拟 path 模块
+  const path = {
+    resolve: (...paths: string[]) => paths.join("/").replace(/\/+/g, "/"),
+    join: (...paths: string[]) => paths.join("/").replace(/\/+/g, "/"),
+    dirname: (p: string) => p.substring(0, p.lastIndexOf("/")),
+    basename: (p: string) => p.substring(p.lastIndexOf("/") + 1),
+    extname: (p: string) => {
+      const base = p.substring(p.lastIndexOf("/") + 1);
+      const dotIndex = base.lastIndexOf(".");
+      return dotIndex > 0 ? base.substring(dotIndex) : "";
+    },
+  };
+
   function createVSCodeMock() {
     const mockShowInformationMessage = () => Promise.resolve("");
     const mockCreateOutputChannel = () => ({
@@ -25,7 +38,7 @@ if (!(global as any).vscode) {
     });
 
     return {
-      version: "1.89.0",
+      version: "1.109.0",
       window: {
         showInformationMessage: mockShowInformationMessage,
         createOutputChannel: mockCreateOutputChannel,
@@ -64,15 +77,94 @@ if (!(global as any).vscode) {
         file: (path: string) => ({
           fsPath: path,
           scheme: "file",
+          authority: "",
           path: path,
-          with: () => ({}),
+          query: "",
+          fragment: "",
+          toString: () => `file://${path}`,
+          toJSON: () => ({ scheme: "file", authority: "", path: path, query: "", fragment: "" }),
+          with: (change: {
+            scheme?: string;
+            authority?: string;
+            path?: string;
+            query?: string;
+            fragment?: string;
+          }) => ({
+            fsPath: change.path || path,
+            scheme: change.scheme || "file",
+            authority: change.authority || "",
+            path: change.path || path,
+            query: change.query || "",
+            fragment: change.fragment || "",
+            toString: () =>
+              `${change.scheme || "file"}://${change.authority || ""}${change.path || path}${change.query ? `?${change.query}` : ""}${change.fragment ? `#${change.fragment}` : ""}`,
+            toJSON: () => ({
+              scheme: change.scheme || "file",
+              authority: change.authority || "",
+              path: change.path || path,
+              query: change.query || "",
+              fragment: change.fragment || "",
+            }),
+            with: () => ({}),
+          }),
         }),
         joinPath: (base: any, path: string) => ({
           fsPath: `${base.fsPath}/${path}`,
-          scheme: "file",
+          scheme: base.scheme || "file",
+          authority: base.authority || "",
           path: `${base.path}/${path}`,
-          with: () => ({}),
+          query: base.query || "",
+          fragment: base.fragment || "",
+          toString: () =>
+            `${base.scheme || "file"}://${base.authority || ""}${base.path}/${path}${base.query ? `?${base.query}` : ""}${base.fragment ? `#${base.fragment}` : ""}`,
+          toJSON: () => ({
+            scheme: base.scheme || "file",
+            authority: base.authority || "",
+            path: `${base.path}/${path}`,
+            query: base.query || "",
+            fragment: base.fragment || "",
+          }),
+          with: (change: {
+            scheme?: string;
+            authority?: string;
+            path?: string;
+            query?: string;
+            fragment?: string;
+          }) => ({
+            fsPath: change.path || `${base.fsPath}/${path}`,
+            scheme: change.scheme || base.scheme || "file",
+            authority: change.authority || base.authority || "",
+            path: change.path || `${base.path}/${path}`,
+            query: change.query || base.query || "",
+            fragment: change.fragment || base.fragment || "",
+            toString: () =>
+              `${change.scheme || base.scheme || "file"}://${change.authority || base.authority || ""}${change.path || `${base.path}/${path}`}${change.query || base.query ? `?${change.query || base.query}` : ""}${change.fragment || base.fragment ? `#${change.fragment || base.fragment}` : ""}`,
+            toJSON: () => ({
+              scheme: change.scheme || base.scheme || "file",
+              authority: change.authority || base.authority || "",
+              path: change.path || `${base.path}/${path}`,
+              query: change.query || base.query || "",
+              fragment: change.fragment || base.fragment || "",
+            }),
+            with: () => ({}),
+          }),
         }),
+        parse: (value: string) => {
+          const schemeMatch = value.match(/^(\w+):\/\//);
+          const scheme = schemeMatch ? schemeMatch[1] : "file";
+          const path = value.replace(/^\w+:\/\//, "");
+          return {
+            fsPath: path,
+            scheme: scheme,
+            authority: "",
+            path: path,
+            query: "",
+            fragment: "",
+            toString: () => value,
+            toJSON: () => ({ scheme: scheme, authority: "", path: path, query: "", fragment: "" }),
+            with: () => ({}),
+          };
+        },
       },
       extensions: {
         getExtension: mockGetExtension,
@@ -140,6 +232,63 @@ if (!(global as any).vscode) {
             this.start = start;
             this.end = end;
           }
+        }
+      },
+      ExtensionContext: class ExtensionContext {
+        subscriptions: any[] = [];
+        extensionUri = { fsPath: "/test/extension" };
+        extensionPath = "/test/extension";
+        globalState = {
+          get: () => null,
+          update: () => Promise.resolve(),
+          keys: () => [],
+          setKeysForSync: () => {},
+        };
+        workspaceState = {
+          get: () => null,
+          update: () => Promise.resolve(),
+          keys: () => [],
+        };
+        secrets = {
+          get: () => Promise.resolve(null),
+          store: () => Promise.resolve(),
+          delete: () => Promise.resolve(),
+        };
+        extensionMode = 3; // Test mode
+        environmentVariableCollection = {
+          persistent: false,
+          replace: () => {},
+          append: () => {},
+          prepend: () => {},
+          get: () => undefined,
+          forEach: () => {},
+          delete: () => {},
+          clear: () => {},
+        };
+        storageUri = { fsPath: "/test/storage" };
+        globalStorageUri = { fsPath: "/test/global-storage" };
+        logUri = { fsPath: "/test/logs" };
+        logPath = "/test/logs";
+        storagePath = "/test/storage";
+        globalStoragePath = "/test/global-storage";
+        extension = {
+          id: "test.extension",
+          extensionUri: { fsPath: "/test/extension" },
+          extensionPath: "/test/extension",
+          isActive: true,
+          packageJSON: {},
+          activate: () => Promise.resolve({}),
+          exports: {},
+        };
+        languageModelAccessInformation = {
+          canSendRequest: () => false,
+          canSendRequestToProvider: () => false,
+          canUseModels: () => false,
+          canUseModel: () => false,
+        };
+
+        asAbsolutePath(relativePath: string): string {
+          return path.resolve("/test/extension", relativePath);
         }
       },
     };
