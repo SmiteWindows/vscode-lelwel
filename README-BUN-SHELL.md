@@ -1,20 +1,20 @@
-# Bun Shell 使用指南
+# Bun Shell Usage Guide
 
-本文档介绍如何在 VS Code Lelwel 扩展项目中使用 Bun Shell API 替代传统的 Node.js 脚本。
+This document explains how to use Bun Shell API in the VS Code Lelwel extension project as an alternative to traditional Node.js scripts.
 
-## 什么是 Bun Shell
+## What is Bun Shell
 
-Bun Shell 是 Bun 1.3.9+ 中内置的跨平台 shell 工具，提供了一致的 API 来执行 shell 命令，解决了在不同操作系统上的兼容性问题。
+Bun Shell is a cross-platform shell tool built into Bun 1.3.9+ that provides a consistent API for executing shell commands, solving compatibility issues across different operating systems.
 
-## 为什么使用 Bun Shell
+## Why Use Bun Shell
 
-1. **跨平台兼容性**：在 Windows、macOS 和 Linux 上提供一致的 API
-2. **性能更高**：Bun Shell 比 Node.js 的 `child_process` 更快
-3. **更简洁的语法**：使用 `bun shell` 命令比复杂的 Node.js 脚本更简洁
-4. **更好的错误处理**：Bun 提供更清晰的错误信息
-5. **原生支持**：作为项目的运行时，Bun Shell 与项目更紧密集成
+1. **Cross-platform compatibility**: Provides consistent API on Windows, macOS, and Linux
+2. **Better performance**: Bun Shell is faster than Node.js `child_process`
+3. **Cleaner syntax**: `bun shell` commands are simpler than complex Node.js scripts
+4. **Better error handling**: Bun provides clearer error messages
+5. **Native integration**: As the project's runtime, Bun Shell integrates more tightly with the project
 
-## 项目中的 Bun Shell 使用
+## Bun Shell Usage in the Project
 
 ### WASM 构建脚本
 

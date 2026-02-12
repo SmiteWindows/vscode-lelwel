@@ -1,52 +1,109 @@
-# 使用 Bun 工具链开发
+# Bun Development Guide
 
-本项目已配置为使用 Bun 作为包管理器和构建工具，并使用oxlint进行代码检查，oxcfmt 进行代码格式化。
+This project uses Bun as the package manager and build tool, with comprehensive testing and development workflows.
 
-## 安装依赖
+## Quick Start
 
 ```bash
+# Install dependencies
 bun install
+
+# Build and run in development mode
+bun run build:dev
+bun run dev:hot
 ```
 
-## 开发命令
+## Development Workflow
 
-- `bun run compile` - 编译TypeScript代码（带压缩）
-- `bun run watch` - 监听TypeScript文件变化并自动编译
-- `bun run dev` - 构建WASM并监听文件变化（推荐用于开发）
-- `bun run dev:fast` - 快速开发模式（不清控制台）
-- `bun run build-wasm` - 构建WASM二进制文件
-- `bun run build` - 构建项目（编译+构建WASM）
-- `bun run build:parallel` - 并行构建（WASM和编译同时进行）
-- `bun run lint` - 使用oxlint检查代码
-- `bun run lint:fix` - 使用oxlint检查并修复代码问题
-- `bun run format` - 使用oxcfmt格式化代码
-- `bun run format:check` - 检查代码格式是否符合规范
-- `bun run type-check` - 类型检查
-- `bun run test` - 运行测试
-- `bun run test:watch` - 监视模式运行测试
-- `bun run test:coverage` - 运行测试并生成覆盖率报告
-- `bun run package` - 打包扩展
-- `bun run clean` - 清理所有构建产物和缓存
-- `bun run clean:artifacts` - 只清理构建产物（dist、server、coverage）
-- `bun run clean:cache` - 只清理缓存文件（.tsbuildinfo、.eslintcache、node_modules/.cache）
+### Core Commands
 
-## 工具链说明
+```bash
+# Development (recommended)
+bun run dev:hot          # Hot reload with TypeScript and Rust monitoring
+bun run dev              # Simple development mode
+bun run dev:fast         # Fast development (no clear)
 
-- **Bun**: 替代npm作为包管理器，提供更快的安装速度和内置的构建工具
-- **oxlint**: 替代eslint，提供更快的代码检查速度
-- **oxfmt**: 替代prettier，提供更快的代码格式化速度
-- **TypeScript**: 继续使用TypeScript进行类型检查
+# Building
+bun run build:dev        # Development build with sourcemaps
+bun run build:production # Production build with minification
+bun run build            # Standard build
 
-## 配置文件
+# Testing (13 tests total)
+bun run test             # Run all tests
+bun run test:unit        # Unit tests only
+bun run test:integration # Integration tests only
+bun run test:watch       # Watch mode
+bun run test:coverage    # With coverage report
 
-- `bunfig.toml` - Bun配置文件
-- `oxlint.json` - oxlint配置文件
-- `.oxcfmt.json` - oxfmt配置文件
-- `tsconfig.json` - TypeScript配置文件（已更新以适配Bun）
+# Quality Assurance
+bun run lint             # Code linting
+bun run lint:fix         # Auto-fix linting issues
+bun run format           # Code formatting
+bun run type-check       # TypeScript type checking
 
-## VS Code集成
+# Packaging
+bun run package          # Create VSIX package
+bun run clean            # Clean build artifacts
+```
 
-项目已配置VS Code集成，支持：
+### WASM Development
+
+```bash
+# Build WASM language server
+bun run build-wasm
+
+# Monitor Rust files (optional)
+bun run watch:wasm
+```
+
+## Project Structure
+
+```
+.
+├── src/                 # TypeScript extension source
+├── lelwel/             # Rust language server source
+├── server/             # Compiled WASM files
+├── dist/               # Compiled extension
+├── testFixture/        # Test files
+└── syntaxes/          # TextMate grammar
+```
+
+## Testing Infrastructure
+
+- **13 comprehensive tests** covering extension functionality
+- **Unit tests**: Core extension functions
+- **Integration tests**: LSP server integration and error handling
+- **Mock system**: Test-specific extension mocking to avoid vscode module issues
+
+## Build System Features
+
+### Multi-stage Build Process
+
+1. **WASM Preparation**: Prepare Rust build environment
+2. **WASM Compilation**: Compile Rust to WebAssembly
+3. **File Copying**: Copy WASM files to server directory
+4. **TypeScript Build**: Compile extension with proper configuration
+
+### Development Modes
+
+- **Hot Reload**: Automatic rebuilding on file changes
+- **Fast Development**: Optimized for quick iteration
+- **Production Build**: Optimized for distribution
+
+## Configuration Files
+
+- `package.json` - Build scripts and dependencies
+- `tsconfig.json` - TypeScript configuration
+- `.vscode/` - VS Code debugging and task configurations
+- `bunfig.toml` - Bun runtime configuration
+
+## VS Code Integration
+
+Project includes comprehensive VS Code configuration:
+
+- **Debug configurations** for extension development
+- **Task definitions** for build automation
+- **Launch profiles** for different development scenarios
 
 - 自动格式化（保存时）
 - 任务运行（编译、检查、格式化）

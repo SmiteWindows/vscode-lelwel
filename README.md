@@ -20,72 +20,33 @@ This extension provides [lelwel](https://github.com/SmiteWindows/lelwel) languag
 
 ## Development
 
-This extension is built with Bun and uses WebAssembly for the language server. See [README-BUN-SHELL.md](./README-BUN-SHELL.md) for details on the build system.
+This extension is built with Bun and uses WebAssembly for the language server.
+
+### Quick Start
+
+```bash
+# Clone and setup
+git clone https://github.com/0x2a-42/vscode-lelwel.git
+cd vscode-lelwel
+bun install
+
+# Build and run
+bun run build:dev
+bun run dev:hot
+```
+
+### Documentation
+
+For detailed development information, see:
+
+- [Bun Build System](./README-BUN.md) - Complete build and development guide
+- [Bun Features](./README-BUN-FEATURES.md) - Advanced features and optimizations
+- [Bun Scripts](./README-BUN-SHELL.md) - Available npm scripts and usage
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) (v1.3.9 or later)
-- [Rust](https://rustup.rs/) (for building the WebAssembly language server)
-
-### Building
-
-```bash
-# Clone the repository
-git clone https://github.com/0x2a-42/vscode-lelwel.git
-cd vscode-lelwel
-
-# Install dependencies
-bun install
-
-# Build the extension (includes WASM)
-bun run build:dev
-
-# Run in hot reload development mode (recommended)
-bun run dev:hot
-```
-
-### Development Workflow
-
-This project supports multiple development modes:
-
-```bash
-# Hot reload development (recommended) - monitors TypeScript and Rust files
-bun run dev:hot
-
-# Simple development mode
-bun run dev
-
-# Fast development (no clear)
-bun run dev:fast
-```
-
-### Testing
-
-The project includes comprehensive testing with 13 tests:
-
-```bash
-# Run all tests (13 tests)
-bun run test
-
-# Run unit tests only
-bun run test:unit
-
-# Run integration tests only
-bun run test:integration
-
-# Watch mode for tests
-bun run test:watch
-
-# Run tests with coverage
-bun run test:coverage
-```
-
-### Packaging
-
-```bash
-# Package the extension into a VSIX file
-bun run package
-```
+- [Bun](https://bun.sh/) (v1.3.9+)
+- [Rust](https://rustup.rs/) (for WebAssembly language server)
 
 ## Configuration
 
