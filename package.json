@@ -102,7 +102,9 @@
       }
     }
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "workspaceContains:**/*.llw"
+  ],
   "extensionDependencies": [
     "ms-vscode.wasm-wasi-core"
   ],
