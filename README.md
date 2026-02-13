@@ -40,8 +40,6 @@ bun run dev:hot
 For detailed development information, see:
 
 - [Bun Build System](./README-BUN.md) - Complete build and development guide
-- [Bun Features](./README-BUN-FEATURES.md) - Advanced features and optimizations
-- [Bun Scripts](./README-BUN-SHELL.md) - Available npm scripts and usage
 
 ### Prerequisites
 
