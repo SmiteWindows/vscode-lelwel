@@ -55,7 +55,7 @@
   "dependencies": {
     "@vscode/wasm-wasi": "1.0.1",
     "@vscode/wasm-wasi-lsp": "0.1.0-pre.8",
-    "vscode-languageclient": "10.0.0-next.20"
+    "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
     "@types/node": "25.2.3",
