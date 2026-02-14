@@ -14,7 +14,12 @@ import { createStdioOptions, createUriConverters, startServer } from "@vscode/wa
 import { performanceMonitor } from "./utils/performance";
 
 const NATIVE_LELWEL_CONFIGURATION = "lelwel.nativeLsp";
-const FORMAT_PRESERVE_COMMENTS_CONFIGURATION = "lelwel.formatPreserveComments";
+const FORMAT_MAX_LINE_WIDTH_CONFIGURATION = "lelwel.format.maxLineWidth";
+const FORMAT_INDENT_SIZE_CONFIGURATION = "lelwel.format.indentSize";
+const FORMAT_PRESERVE_COMMENTS_CONFIGURATION = "lelwel.format.preserveComments";
+const FORMAT_COMPACT_CONCAT_CONFIGURATION = "lelwel.format.compactConcat";
+const FORMAT_ALIGN_OPERATORS_CONFIGURATION = "lelwel.format.alignOperators";
+const FORMAT_ENABLE_WRAPPING_CONFIGURATION = "lelwel.format.enableWrapping";
 
 let client: LanguageClient | null = null;
 let isWasmLoaded = false;
@@ -67,6 +72,27 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // 处理注释配置变更，不需要重启语言服务器
         if (e.affectsConfiguration(FORMAT_PRESERVE_COMMENTS_CONFIGURATION)) {
           console.log("注释配置已变更，下次格式化时将使用新设置");
+        }
+
+        // 处理其他格式化配置变更
+        if (e.affectsConfiguration(FORMAT_MAX_LINE_WIDTH_CONFIGURATION)) {
+          console.log("最大行宽配置已变更");
+        }
+
+        if (e.affectsConfiguration(FORMAT_INDENT_SIZE_CONFIGURATION)) {
+          console.log("缩进大小配置已变更");
+        }
+
+        if (e.affectsConfiguration(FORMAT_COMPACT_CONCAT_CONFIGURATION)) {
+          console.log("紧凑串联配置已变更");
+        }
+
+        if (e.affectsConfiguration(FORMAT_ALIGN_OPERATORS_CONFIGURATION)) {
+          console.log("操作符对齐配置已变更");
+        }
+
+        if (e.affectsConfiguration(FORMAT_ENABLE_WRAPPING_CONFIGURATION)) {
+          console.log("智能换行配置已变更");
         }
       }),
     );
@@ -271,18 +297,14 @@ async function formatDocument(textEditor: import("vscode").TextEditor) {
   }
 
   try {
-    // 获取注释配置
-    const preserveComments = getFormatPreserveComments(document);
+    // 获取格式化配置
+    const formatOptions = getFormatOptions(document, textEditor);
 
     // 使用LSP服务器的格式化功能
     if (client) {
       const edits = await client.sendRequest("textDocument/formatting", {
         textDocument: { uri: document.uri.toString() },
-        options: {
-          tabSize: Number(textEditor.options.tabSize),
-          insertSpaces: Boolean(textEditor.options.insertSpaces),
-          preserveComments: preserveComments,
-        },
+        options: formatOptions,
       });
 
       if (edits && Array.isArray(edits) && edits.length > 0) {
@@ -304,11 +326,18 @@ async function formatDocument(textEditor: import("vscode").TextEditor) {
   }
 }
 
-// 获取格式化时是否保留注释的配置
-function getFormatPreserveComments(document: TextDocument): boolean {
+// 获取格式化配置选项
+function getFormatOptions(document: TextDocument, textEditor: import("vscode").TextEditor): any {
   const config = workspace.getConfiguration("", document.uri);
-  const value = config.get<boolean>(FORMAT_PRESERVE_COMMENTS_CONFIGURATION);
 
-  // 默认值为true，保留注释
-  return value !== false;
+  return {
+    tabSize: Number(textEditor.options.tabSize),
+    insertSpaces: Boolean(textEditor.options.insertSpaces),
+    maxLineWidth: config.get<number>(FORMAT_MAX_LINE_WIDTH_CONFIGURATION) || 100,
+    indentSize: config.get<number>(FORMAT_INDENT_SIZE_CONFIGURATION) || 2,
+    preserveComments: config.get<boolean>(FORMAT_PRESERVE_COMMENTS_CONFIGURATION) !== false,
+    compactConcat: config.get<boolean>(FORMAT_COMPACT_CONCAT_CONFIGURATION) || false,
+    alignOperators: config.get<boolean>(FORMAT_ALIGN_OPERATORS_CONFIGURATION) !== false,
+    enableWrapping: config.get<boolean>(FORMAT_ENABLE_WRAPPING_CONFIGURATION) !== false,
+  };
 }

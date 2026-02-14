@@ -67,6 +67,7 @@
     "concurrently": "9.2.1",
     "oxfmt": "0.32.0",
     "oxlint": "1.47.0",
+    "rimraf": "6.1.2",
     "typescript": "5.9.3"
   },
   "contributes": {
@@ -114,10 +115,35 @@
           "default": false,
           "description": "Connect to a 'lelwel-ls' binary, instead of using the embedded language server."
         },
-        "lelwel.formatPreserveComments": {
+        "lelwel.format.maxLineWidth": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum line width for formatting lelwel documents."
+        },
+        "lelwel.format.indentSize": {
+          "type": "number",
+          "default": 2,
+          "description": "Number of spaces per indentation level."
+        },
+        "lelwel.format.preserveComments": {
           "type": "boolean",
           "default": true,
           "description": "Preserve comments when formatting lelwel documents."
+        },
+        "lelwel.format.compactConcat": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use compact format for concatenation expressions."
+        },
+        "lelwel.format.alignOperators": {
+          "type": "boolean",
+          "default": true,
+          "description": "Align operators in multi-line expressions."
+        },
+        "lelwel.format.enableWrapping": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable smart line wrapping for long expressions."
         }
       }
     }
