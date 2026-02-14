@@ -80,8 +80,8 @@
     "keybindings": [
       {
         "command": "lelwel.formatDocument",
-        "key": "ctrl+shift+i",
-        "mac": "cmd+shift+i",
+        "key": "alt+shift+f",
+        "mac": "alt+shift+f",
         "when": "editorLangId == lelwel"
       }
     ],
