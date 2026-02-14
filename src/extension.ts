@@ -1,4 +1,13 @@
-import { ExtensionContext, Uri, workspace, window } from "vscode";
+import {
+  ExtensionContext,
+  Uri,
+  workspace,
+  window,
+  commands,
+  TextDocument,
+  TextEdit,
+  Range,
+} from "vscode";
 import { LanguageClient, LanguageClientOptions, ServerOptions } from "vscode-languageclient/node";
 import { Wasm, ProcessOptions } from "@vscode/wasm-wasi/v1";
 import { createStdioOptions, createUriConverters, startServer } from "@vscode/wasm-wasi-lsp";
@@ -30,6 +39,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     } finally {
       isStarting = false;
     }
+
+    // 注册格式化命令
+    context.subscriptions.push(
+      commands.registerTextEditorCommand("lelwel.formatDocument", formatDocument),
+    );
 
     // 初始化数据库连接（如果需要）
     await initializeDatabase(context);
@@ -237,5 +251,44 @@ export function deactivate(): Thenable<void> | undefined {
     client = null;
     isWasmLoaded = false;
     wasmInstance = null;
+  }
+}
+
+// 格式化文档命令
+async function formatDocument(textEditor: import("vscode").TextEditor) {
+  const document = textEditor.document;
+
+  if (document.languageId !== "lelwel") {
+    window.showWarningMessage("格式化命令仅适用于lelwel文件");
+    return;
+  }
+
+  try {
+    // 使用LSP服务器的格式化功能
+    if (client) {
+      const edits = await client.sendRequest("textDocument/formatting", {
+        textDocument: { uri: document.uri.toString() },
+        options: {
+          tabSize: Number(textEditor.options.tabSize),
+          insertSpaces: Boolean(textEditor.options.insertSpaces),
+        },
+      });
+
+      if (edits && Array.isArray(edits) && edits.length > 0) {
+        const edit = new TextEdit(
+          new Range(document.positionAt(0), document.positionAt(document.getText().length)),
+          (edits[0] as any).newText,
+        );
+
+        await textEditor.edit((editBuilder) => {
+          editBuilder.replace(edit.range, edit.newText);
+        });
+      }
+    }
+  } catch (error) {
+    console.error("格式化失败:", error);
+    window.showErrorMessage(
+      "格式化失败: " + (error instanceof Error ? error.message : String(error)),
+    );
   }
 }
