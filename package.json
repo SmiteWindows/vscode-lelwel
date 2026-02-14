@@ -1,7 +1,7 @@
 {
   "name": "lelwel",
   "displayName": "lelwel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "lelwel language server",
   "categories": [
     "Programming Languages",
@@ -40,9 +40,9 @@
     "lint:fix": "bun x oxlint --fix",
     "format": "bun x oxfmt --write src/**/*.{ts,js,json}",
     "package": "bun x vsce package --no-dependencies",
-    "watch:wasm": "echo 'WASM监视: 安装 watchexec-cli: cargo install watchexec-cli，然后运行 bun run watch:wasm:watchexec'",
-    "watch:wasm:watchexec": "watchexec -r -e rs -- bun run build-wasm'",
-    "watch:wasm:simple": "echo '手动构建WASM: 修改Rust文件后运行 bun run build-wasm'",
+    "watch:wasm": "echo 'WASM Watch: Install watchexec-cli: cargo install watchexec-cli, then run bun run watch:wasm:watchexec'",
+    "watch:wasm:watchexec": "watchexec -r -e rs -- bun run build-wasm",
+    "watch:wasm:simple": "echo 'Manual WASM build: Run bun run build-wasm after modifying Rust files'",
     "dev:hot": "bun build-wasm && bun concurrently 'bun --watch src/extension.ts --watch src/test/**/*.ts' 'bun watch:wasm:watchexec'",
     "dev:hot:simple": "bun build-wasm && bun --watch src/extension.ts --watch src/test/**/*.ts",
     "clean": "bun x rimraf dist server .tsbuildinfo coverage && cd lelwel && cargo clean",
@@ -73,7 +73,7 @@
     "commands": [
       {
         "command": "lelwel.formatDocument",
-        "title": "格式化lelwel文档",
+        "title": "Format Lelwel Document",
         "category": "Lelwel"
       }
     ],
@@ -122,9 +122,7 @@
       }
     }
   },
-  "activationEvents": [
-    "workspaceContains:**/*.llw"
-  ],
+  "activationEvents": [],
   "extensionDependencies": [
     "ms-vscode.wasm-wasi-core"
   ],
