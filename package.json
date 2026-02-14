@@ -113,6 +113,11 @@
           "type": "boolean",
           "default": false,
           "description": "Connect to a 'lelwel-ls' binary, instead of using the embedded language server."
+        },
+        "lelwel.formatPreserveComments": {
+          "type": "boolean",
+          "default": true,
+          "description": "Preserve comments when formatting lelwel documents."
         }
       }
     }

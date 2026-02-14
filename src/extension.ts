@@ -14,6 +14,7 @@ import { createStdioOptions, createUriConverters, startServer } from "@vscode/wa
 import { performanceMonitor } from "./utils/performance";
 
 const NATIVE_LELWEL_CONFIGURATION = "lelwel.nativeLsp";
+const FORMAT_PRESERVE_COMMENTS_CONFIGURATION = "lelwel.formatPreserveComments";
 
 let client: LanguageClient | null = null;
 let isWasmLoaded = false;
@@ -62,6 +63,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
               );
             });
         }
+
+        // 处理注释配置变更，不需要重启语言服务器
+        if (e.affectsConfiguration(FORMAT_PRESERVE_COMMENTS_CONFIGURATION)) {
+          console.log("注释配置已变更，下次格式化时将使用新设置");
+        }
       }),
     );
   } catch (error) {
@@ -89,6 +95,7 @@ async function initializeDatabase(_context: ExtensionContext): Promise<void> {
     // 保存设置
     const config = workspace.getConfiguration("lelwel");
     saveUserSetting("nativeLsp", config.get("nativeLsp", false));
+    saveUserSetting("formatPreserveComments", config.get("formatPreserveComments", true));
   } catch (error) {
     console.warn("Failed to initialize database:", error);
   }
@@ -264,6 +271,9 @@ async function formatDocument(textEditor: import("vscode").TextEditor) {
   }
 
   try {
+    // 获取注释配置
+    const preserveComments = getFormatPreserveComments(document);
+
     // 使用LSP服务器的格式化功能
     if (client) {
       const edits = await client.sendRequest("textDocument/formatting", {
@@ -271,6 +281,7 @@ async function formatDocument(textEditor: import("vscode").TextEditor) {
         options: {
           tabSize: Number(textEditor.options.tabSize),
           insertSpaces: Boolean(textEditor.options.insertSpaces),
+          preserveComments: preserveComments,
         },
       });
 
@@ -291,4 +302,13 @@ async function formatDocument(textEditor: import("vscode").TextEditor) {
       "格式化失败: " + (error instanceof Error ? error.message : String(error)),
     );
   }
+}
+
+// 获取格式化时是否保留注释的配置
+function getFormatPreserveComments(document: TextDocument): boolean {
+  const config = workspace.getConfiguration("", document.uri);
+  const value = config.get<boolean>(FORMAT_PRESERVE_COMMENTS_CONFIGURATION);
+
+  // 默认值为true，保留注释
+  return value !== false;
 }
