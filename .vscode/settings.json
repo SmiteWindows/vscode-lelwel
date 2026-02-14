@@ -44,5 +44,8 @@
   },
   "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.revealDefinition",
   "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.revealDefinition",
-  "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.revealDefinition"
+  "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.revealDefinition",
+  "[lelwel]": {
+    "editor.defaultFormatter": "0x2a-42.lelwel"
+  }
 }
