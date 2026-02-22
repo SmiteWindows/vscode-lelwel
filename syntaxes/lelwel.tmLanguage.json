@@ -22,7 +22,7 @@
       "patterns": [
         {
           "name": "keyword.control.lelwel",
-          "match": "\\b(token|start|right|skip)\\b"
+          "match": "\\b(token|start|right|skip|part)\\b"
         }
       ]
     },
@@ -72,7 +72,7 @@
       "patterns": [
         {
           "name": "keyword.operator.lelwel",
-          "match": "[\\+\\*\\|\\(\\)\\[\\]=]"
+          "match": "[\\+\\*\\|\\(\\)\\[\\]=&]"
         },
         {
           "name": "entity.name.type.lelwel",
