@@ -5,15 +5,15 @@ To run and test the extension locally in development mode:
 ```sh
 git clone https://github.com/0x2a-42/vscode-lelwel.git
 cd vscode-lelwel
-npm install
-npm run compile
+bun install
+bun run compile
 ```
 
 ## Dependencies
 
+- Bun (>= 1.3.9)
 - Rust with wasi threads
   - `rustup target add wasm32-wasip1-threads`
-- Node.js with npm
 
 ## Get up and running straight away
 
@@ -40,15 +40,15 @@ npm run compile
 
 ## Getting the lelwel binary
 
-The lelwel binary is automatically built when you run `npm run compile`
+The lelwel binary is automatically built when you run `bun run compile`
 
-To update it, update the git submodule and rerun `npm run compile`
+To update it, update the git submodule and rerun `bun run compile`
 
 ## Building the extension
 
 To build a `.vsix` from the extension, you need the [@vscode/vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) package. Then you build a package of it.
 
 ```bash
-npm install -g @vscode/vsce
-vsce package
+bun install -g @vscode/vsce
+bun run package
 ```
