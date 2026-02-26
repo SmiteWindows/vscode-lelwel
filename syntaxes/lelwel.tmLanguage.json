@@ -17,6 +17,25 @@
     { "include": "#node-rename" },
     { "include": "#identifier" }
   ],
+
+  "semanticHighlighting": true,
+  "semanticTokenTypes": {
+    "keyword": {
+      "foreground": "keyword.control"
+    },
+    "string": {
+      "foreground": "string.quoted"
+    },
+    "comment": {
+      "foreground": "comment"
+    },
+    "operator": {
+      "foreground": "keyword.operator"
+    },
+    "node": {
+      "foreground": "entity.name.function"
+    }
+  },
   "repository": {
     "keywords": {
       "patterns": [
