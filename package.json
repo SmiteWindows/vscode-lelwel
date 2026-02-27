@@ -22,13 +22,12 @@
   "publisher": "0x2a-42",
   "main": "./dist/extension.js",
   "scripts": {
-    "vscode:prepublish": "bun build:production",
     "build": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --minify",
     "build:production": "bun build-wasm && bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --minify --sourcemap",
     "build:dev": "bun build-wasm && bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap",
     "build-wasm": "bun build-wasm:prepare && bun build-wasm:compile && bun build-wasm:copy",
     "build-wasm:prepare": "bun scripts/build-stable.mjs prepare",
-    "build-wasm:compile": "cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip1-threads -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000",
+    "build-wasm:compile": "cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip2 -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000",
     "build-wasm:copy": "bun scripts/build-stable.mjs copy",
     "compile": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --minify",
     "watch": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --watch",
@@ -39,7 +38,7 @@
     "lint": "bun x oxlint",
     "lint:fix": "bun x oxlint --fix",
     "format": "bun x oxfmt --write src/**/*.{ts,js,json}",
-    "package": "bun x vsce package --no-dependencies",
+    "package": "bun run build:production && bun x vsce package --no-dependencies",
     "watch:wasm": "echo 'WASM Watch: Install watchexec-cli: cargo install watchexec-cli, then run bun run watch:wasm:watchexec'",
     "watch:wasm:watchexec": "watchexec -r -e rs -- bun run build-wasm",
     "watch:wasm:simple": "echo 'Manual WASM build: Run bun run build-wasm after modifying Rust files'",
@@ -55,10 +54,10 @@
   "dependencies": {
     "@vscode/wasm-wasi": "1.0.1",
     "@vscode/wasm-wasi-lsp": "0.1.0-pre.8",
-    "vscode-languageclient": "9.0.1"
+    "vscode-languageclient": "10.0.0-next.20"
   },
   "devDependencies": {
-    "@types/node": "25.3.1",
+    "@types/node": "25.3.2",
     "@types/vscode": "1.107.0",
     "@vscode/test-cli": "0.0.12",
     "@vscode/test-electron": "2.5.2",

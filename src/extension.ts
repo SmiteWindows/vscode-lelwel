@@ -1,15 +1,7 @@
 import { ExtensionContext, Uri, workspace, window } from "vscode";
-import {
-  LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
-} from "vscode-languageclient/node";
+import { LanguageClient, LanguageClientOptions, ServerOptions } from "vscode-languageclient/node";
 import { Wasm, ProcessOptions } from "@vscode/wasm-wasi/v1";
-import {
-  createStdioOptions,
-  createUriConverters,
-  startServer,
-} from "@vscode/wasm-wasi-lsp";
+import { createStdioOptions, createUriConverters, startServer } from "@vscode/wasm-wasi-lsp";
 
 const NATIVE_LELWEL_CONFIGURATION = "lelwel.nativeLsp";
 
@@ -54,18 +46,14 @@ async function startLsp(context: ExtensionContext) {
     };
   } else {
     const wasm: Wasm = await Wasm.load();
-    const channel = window.createOutputChannel("Lelwel WASM LS");
+    const channel = window.createOutputChannel("Lelwel WASM LS", { log: true });
 
     serverOptions = async () => {
       const options: ProcessOptions = {
         stdio: createStdioOptions(),
         mountPoints: [{ kind: "workspaceFolder" }],
       };
-      const filename = Uri.joinPath(
-        context.extensionUri,
-        "server",
-        "lelwel-ls.wasm",
-      );
+      const filename = Uri.joinPath(context.extensionUri, "server", "lelwel-ls.wasm");
       const bits = await workspace.fs.readFile(filename);
       const module = await WebAssembly.compile(bits.buffer as ArrayBuffer);
       const process = await wasm.createProcess(

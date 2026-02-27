@@ -1,8 +1,35 @@
 {
   "search.exclude": {
     "out": true,
-    ".vscode-test": true
+    ".vscode-test": true,
+    "dist": true,
+    "server": true,
+    "node_modules": true,
+    "coverage": true,
+    ".tsbuildinfo": true
   },
-  // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-  "typescript.tsc.autoDetect": "off"
+  // Turn off tsc task auto detection since we have the necessary tasks as bun scripts
+  "typescript.tsc.autoDetect": "off",
+  // Use Bun for running scripts
+  "npm.packageManager": "bun",
+  // File associations
+  "files.associations": {
+    "*.llw": "lelwel"
+  },
+  // Editor settings
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": null,
+  // TypeScript settings
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // Exclude files from file watcher
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.vscode-test/**": true
+  },
+  // Test settings
+  "testing.automaticallyOpenPeekView": "never"
 }

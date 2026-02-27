@@ -4,8 +4,10 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "npm",
-			"script": "watch",
+			"type": "shell",
+			"label": "bun: watch",
+			"command": "bun",
+			"args": ["run", "watch"],
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
 			"presentation": {
@@ -15,6 +17,97 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"type": "shell",
+			"label": "bun: compile",
+			"command": "bun",
+			"args": ["run", "compile"],
+			"problemMatcher": "$tsc-watch",
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "bun: build:production",
+			"command": "bun",
+			"args": ["run", "build:production"],
+			"problemMatcher": "$tsc-watch",
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "bun: build-wasm",
+			"command": "bun",
+			"args": ["run", "build-wasm"],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "bun: test",
+			"command": "bun",
+			"args": ["run", "test"],
+			"problemMatcher": "$tsc-watch",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "bun: test:watch",
+			"command": "bun",
+			"args": ["run", "test:watch"],
+			"problemMatcher": "$tsc-watch",
+			"group": "test"
+		},
+		{
+			"type": "shell",
+			"label": "bun: lint",
+			"command": "bun",
+			"args": ["run", "lint"],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"type": "shell",
+			"label": "bun: lint:fix",
+			"command": "bun",
+			"args": ["run", "lint:fix"],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"type": "shell",
+			"label": "bun: format",
+			"command": "bun",
+			"args": ["run", "format"],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"type": "shell",
+			"label": "bun: type-check",
+			"command": "bun",
+			"args": ["run", "type-check"],
+			"problemMatcher": "$tsc",
+			"group": "test"
+		},
+		{
+			"type": "shell",
+			"label": "bun: clean",
+			"command": "bun",
+			"args": ["run", "clean"],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "bun: package",
+			"command": "bun",
+			"args": ["run", "package"],
+			"problemMatcher": [],
+			"group": "build"
 		}
 	]
 }

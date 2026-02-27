@@ -3,12 +3,20 @@
     "module": "Node16",
     "target": "ES2022",
     "outDir": "out",
-    "lib": ["ES2022", "webworker"],
-    "types": ["vscode", "mocha", "node"],
+    "lib": [
+      "ES2022",
+      "webworker"
+    ],
+    "types": [
+      "vscode",
+      "node"
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "src",
     "strict": true
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }

@@ -2,5 +2,5 @@ token Plus='+' Minus='-';
 
 start program;
 
-program: Plus | 
+program: Plus | Minus
 ;

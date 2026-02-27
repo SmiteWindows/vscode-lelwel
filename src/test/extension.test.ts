@@ -45,10 +45,7 @@ async function testCompletion(
   expectedCompletionList.items.forEach((expectedItem, i) => {
     const actualItem = actualCompletionList.items[i];
     // Only check the label text, the description could change
-    assert.strictEqual(
-      (actualItem.label as vscode.CompletionItemLabel).label,
-      expectedItem.label,
-    );
+    assert.strictEqual((actualItem.label as vscode.CompletionItemLabel).label, expectedItem.label);
     assert.strictEqual(actualItem.kind, expectedItem.kind);
   });
 }

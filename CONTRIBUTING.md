@@ -12,8 +12,8 @@ bun run compile
 ## Dependencies
 
 - Bun (>= 1.3.9)
-- Rust with wasi threads
-  - `rustup target add wasm32-wasip1-threads`
+- Rust with WASIp2 support
+  - `rustup target add wasm32-wasip2`
 
 ## Get up and running straight away
 
