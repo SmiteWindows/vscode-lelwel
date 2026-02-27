@@ -21,7 +21,7 @@ function prepareServerDir() {
 function copyWasmFile() {
   const sourcePath = join(
     process.cwd(),
-    "lelwel/target/wasm32-wasip2/release/lelwel-ls.wasm",
+    "lelwel/target/wasm32-wasip1-threads/release/lelwel-ls.wasm",
   );
   const destPath = join(process.cwd(), "server/lelwel-ls.wasm");
 

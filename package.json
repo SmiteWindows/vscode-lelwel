@@ -27,7 +27,7 @@
     "build:dev": "bun build-wasm && bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap",
     "build-wasm": "bun build-wasm:prepare && bun build-wasm:compile && bun build-wasm:copy",
     "build-wasm:prepare": "bun scripts/build-stable.mjs prepare",
-    "build-wasm:compile": "cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip2 -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000",
+    "build-wasm:compile": "cd lelwel && cargo rustc --features=lsp --bin=lelwel-ls --release --target wasm32-wasip1-threads -- -Clink-arg=--initial-memory=10485760 -Clink-arg=--max-memory=131072000",
     "build-wasm:copy": "bun scripts/build-stable.mjs copy",
     "compile": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --minify",
     "watch": "bun build ./src/extension.ts --outdir ./dist --target node --format cjs --external vscode --sourcemap --bundle --watch",
